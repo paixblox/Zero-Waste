@@ -1,338 +1,1083 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>PAIXBLOX - Stop Wasting Time on Multiple Platforms</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Paixblox Runtime Demo</title>
 <style>
-        .benefit-card {
-            transition: all 0.3s;
-            border-left: 4px solid transparent;
-        }
-        .benefit-card:hover {
-            transform: translateY(-5px);
-            border-left-color: #f59e0b;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        .gradient-text {
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .gradient-text-green {
-            background: linear-gradient(90deg, #10b981, #34d399);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .gradient-text-orange {
-            background: linear-gradient(90deg, #f59e0b, #fbbf24);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .expandable-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            display: none;
-        }
-        .expandable-content.show {
-            display: block;
-            max-height: none;
-        }
-        .paixblox-badge {
-            background: linear-gradient(145deg, #7a9cc6, #f8eef2);
-            color: #000;
-        }
-
-
-
-    </style>
+:root {
+  --brand:#4A90E2;
+  --brand2:#357ABD;
+  --accent:#FDB94E;
+  --ink:#0f172a;
+  --muted:#475569;
+  --bg:#f8fafc;
+  --line:#e2e8f0;
+  --card:#ffffff;
+  --good:#10b981;
+  --warn:#f59e0b;
+  --bad:#ef4444;
+  --shadow:0 18px 42px rgba(2,6,23,.12);
+  --radius:18px;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+}
+.fullbleed {
+  position:relative;
+  left:50%;
+  right:50%;
+  margin-left:-50vw;
+  margin-right:-50vw;
+  width:100vw;
+}
+.wrap {
+  max-width:1180px;
+  margin:0 auto;
+  padding:0 22px;
+}
+.hero {
+  background:
+    radial-gradient(circle at 18% 14%, rgba(253,185,78,.30), transparent 26%),
+    radial-gradient(circle at 86% 18%, rgba(255,255,255,.17), transparent 28%),
+    linear-gradient(135deg,var(--brand) 0%,var(--brand2) 100%);
+  color:#fff;
+  padding:70px 0 42px;
+}
+.brand-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:34px;
+}
+.logo {
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:-.03em;
+}
+.veteran {
+  font-size:12px;
+  font-weight:800;
+  color:#eaf4ff;
+  border:1px solid rgba(255,255,255,.28);
+  background:rgba(255,255,255,.09);
+  padding:7px 11px;
+  border-radius:999px;
+}
+h1 {
+  font-size:clamp(34px,5vw,58px);
+  line-height:.98;
+  max-width:930px;
+  margin:0 0 16px;
+  letter-spacing:-.055em;
+}
+.lead {
+  max-width:880px;
+  font-size:18px;
+  color:#eff6ff;
+  line-height:1.5;
+  margin:0;
+}
+.hero-cards {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin-top:24px;
+}
+.hero-card {
+  background:rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.19);
+  box-shadow:0 10px 30px rgba(2,6,23,.12) inset;
+  border-radius:16px;
+  padding:16px;
+}
+.hero-card .label {
+  color:#dbeafe;
+  font-size:12px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.hero-card .value {
+  font-size:28px;
+  font-weight:900;
+  margin-top:6px;
+  color:#fff;
+}
+.hero-card .sub {
+  font-size:12px;
+  color:#dbeafe;
+  line-height:1.45;
+  margin-top:6px;
+}
+.demo-section {
+  padding:34px 0 56px;
+}
+.demo {
+  background:linear-gradient(180deg,#ffffff,#f8fbff);
+  border:2px solid rgba(74,144,226,.22);
+  border-radius:20px;
+  box-shadow:var(--shadow);
+  padding:22px;
+}
+.demo + .demo { margin-top:24px; }
+.demo-head {
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:18px;
+  align-items:start;
+  margin-bottom:18px;
+}
+.kicker {
+  color:#2563eb;
+  font-size:12px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:8px;
+}
+.demo h2 {
+  font-size:clamp(24px,3vw,34px);
+  margin:0 0 8px;
+  letter-spacing:-.035em;
+}
+.demo-copy {
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.55;
+  max-width:820px;
+  margin:0;
+}
+.toolbar {
+  display:flex;
+  justify-content:flex-end;
+  gap:9px;
+  flex-wrap:wrap;
+}
+button, .request-btn {
+  appearance:none;
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--ink);
+  padding:11px 15px;
+  border-radius:10px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.18s ease;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 5px 14px rgba(2,6,23,.05);
+}
+button:hover, .request-btn:hover {
+  transform:translateY(-1px);
+  border-color:#bfdbfe;
+  box-shadow:0 10px 22px rgba(2,6,23,.10);
+}
+button.primary, .request-btn {
+  background:linear-gradient(180deg,var(--brand),var(--brand2));
+  color:#fff;
+  border-color:var(--brand2);
+}
+.scenario-strip {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:16px;
+}
+.scenario-card {
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:13px;
+  box-shadow:0 8px 22px rgba(2,6,23,.05);
+}
+.scenario-card .s-label {
+  font-size:11px;
+  color:#64748b;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+.scenario-card .s-value {
+  font-size:18px;
+  font-weight:950;
+  margin-top:6px;
+  line-height:1.15;
+}
+.scenario-card .s-note {
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.4;
+  margin-top:6px;
+}
+.compare {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.panel {
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  background:#fff;
+  box-shadow:0 10px 26px rgba(2,6,23,.06);
+}
+.panel.traditional {
+  background:linear-gradient(180deg,#fff,#fff7ed);
+  border-color:#fed7aa;
+}
+.panel.runtime {
+  background:linear-gradient(180deg,#fff,#f0f9ff);
+  border-color:#bfdbfe;
+}
+.panel h3 {
+  font-size:20px;
+  margin:0 0 5px;
+  letter-spacing:-.02em;
+}
+.panel-desc {
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.45;
+  margin-bottom:14px;
+}
+.metrics {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.metric {
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:13px;
+  background:rgba(255,255,255,.82);
+}
+.metric-label {
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:#64748b;
+  font-weight:900;
+}
+.metric-value {
+  font-size:22px;
+  font-weight:950;
+  margin-top:6px;
+  line-height:1.05;
+}
+.good { color:var(--good); }
+.warn { color:var(--warn); }
+.bad { color:var(--bad); }
+.detail-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:16px;
+}
+.domain-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+.domain-card, .detail-box {
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:14px;
+  box-shadow:0 8px 20px rgba(2,6,23,.05);
+}
+.domain-card h4, .detail-box h4 {
+  margin:0 0 10px;
+  font-size:15px;
+}
+.step-list {
+  display:grid;
+  gap:8px;
+}
+.step {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  padding:9px 10px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:#f8fafc;
+  font-size:12px;
+}
+.step span:first-child {
+  color:#334155;
+  font-weight:700;
+}
+.step span:last-child {
+  color:#64748b;
+  text-align:right;
+  font-weight:800;
+}
+.event-line {
+  margin-top:16px;
+  padding:13px 15px;
+  border-radius:14px;
+  background:#0f172a;
+  color:#e2e8f0;
+  font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size:12px;
+  min-height:44px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);
+}
+.context {
+  margin-top:16px;
+  padding:14px 16px;
+  border-radius:14px;
+  background:#f8fafc;
+  border:1px dashed var(--line);
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.55;
+}
+.protection {
+  margin-top:10px;
+  color:#64748b;
+  font-size:12px;
+  line-height:1.45;
+}
+.actions {
+  display:flex;
+  justify-content:flex-start;
+  margin-top:18px;
+}
+footer {
+  color:#64748b;
+  font-size:12px;
+  padding:0 22px 28px;
+}
+@media (max-width:980px) {
+  .hero-cards, .compare, .metrics, .demo-head, .scenario-strip, .detail-grid, .domain-grid { grid-template-columns:1fr; }
+  .toolbar { justify-content:flex-start; }
+  .hero { padding:42px 0 32px; }
+  .brand-row { margin-bottom:24px; }
+}
+</style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 via-green-50 to-blue-100">
-<!-- Header -->
-<header class="bg-gradient-to-r from-blue-100 via-green-100 to-blue-200 shadow-sm">
-<div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
-<div class="text-2xl font-bold text-gray-900">
-<span class="gradient-text">PAIXBLOX</span>
-</div>
-<div class="paixblox-badge px-3 py-1 rounded-full text-sm font-medium">
-                Veteran-Owned 
-            </div>
-</div>
-</header>
-<!-- Hero -->
-<section class="bg-gradient-to-r from-blue-800 to-indigo-900 text-white py-20">
-<div class="max-w-4xl mx-auto px-4 text-center">
-<h1 class="text-4xl md:text-5xl font-bold mb-6">Stop Wasting Time on Multiple Platforms.<br/><span class="gradient-text-orange">One System. Infinite Possibilities.</span></h1>
-<p class="text-xl text-blue-100 mb-8">Empower your workflows with effortless deployment and scalability.</p>
-<div class="flex justify-center space-x-4">
-<a class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 px-8 rounded-lg transition-colors" href="https://paixblox.github.io/PB-systems-demo/" target="_blank">
-                    See the Demo
-                </a>
-<button class="bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-8 rounded-lg border border-white/20 transition-colors" onclick="toggleTeamBenefits()">
-                    Team Benefits
-                </button>
-</div>
-<!-- Team Benefits Content -->
-<div class="expandable-content bg-white/20 backdrop-blur-sm mt-6 rounded-lg p-6 text-left max-w-3xl mx-auto border border-white/30" id="teamBenefitsContent">
-<div class="grid md:grid-cols-2 gap-6">
-<div>
-<h3 class="font-bold mb-3 text-yellow-300">For Your Team</h3>
-<ul class="space-y-3">
-<li class="flex items-start">
-<svg class="h-5 w-5 text-green-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-<span>Less context-switching between apps</span>
-</li>
-<li class="flex items-start">
-<svg class="h-5 w-5 text-green-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-<span>Faster project completion</span>
-</li>
-<li class="flex items-start">
-<svg class="h-5 w-5 text-green-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-<span>Fewer errors and headaches</span>
-</li>
-<li class="flex items-start">
-<svg class="h-5 w-5 text-green-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-<span>Clearer visibility across projects</span>
-</li>
-</ul>
-</div>
-<div>
-<h3 class="font-bold mb-3 text-yellow-300">For Leadership</h3>
-<ul class="space-y-3">
-<li class="flex items-start">
-<svg class="h-5 w-5 text-green-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-<span>Cut operational overhead</span>
-</li>
-<li class="flex items-start">
-<svg class="h-5 w-5 text-green-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-<span>Accelerate project timelines</span>
-</li>
-<li class="flex items-start">
-<svg class="h-5 w-5 text-green-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-<span>Increase team productivity</span>
-</li>
-<li class="flex items-start">
-<svg class="h-5 w-5 text-green-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-<span>Reduce training costs</span>
-</li>
-</ul>
-</div>
-</div>
-<div class="mt-4 text-xs text-blue-200 text-center">
-                    Write once, deploy everywhere - transform your workflow today
-                </div>
-</div>
-</div>
-</section>
-<!-- Problem Section -->
-<section class="py-16 bg-gradient-to-br from-green-50 via-blue-50 to-green-100">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="text-center mb-16">
-<h2 class="text-3xl font-bold text-gray-900 mb-4">Your team spends more time on tools than results</h2>
-<p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                    The hidden costs of platform fragmentation are destroying team productivity
-                </p>
-</div>
-<div class="grid md:grid-cols-3 gap-8">
-<div class="benefit-card bg-white/60 backdrop-blur-sm p-8 rounded-lg shadow-md border border-white/40">
-<div class="text-red-600 text-3xl mb-4">
-<svg class="h-12 w-12" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</div>
-<h3 class="text-xl font-bold text-gray-900 mb-3">Juggling Multiple Platforms</h3>
-<p class="text-gray-600">
-                        Switching between different tools slows down progress and creates confusion across teams.
-                    </p>
-</div>
-<div class="benefit-card bg-white/60 backdrop-blur-sm p-8 rounded-lg shadow-md border border-white/40">
-<div class="text-orange-600 text-3xl mb-4">
-<svg class="h-12 w-12" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</div>
-<h3 class="text-xl font-bold text-gray-900 mb-3">Data Translation Waste</h3>
-<p class="text-gray-600">
-                        Hours lost translating data between systems that don't communicate with each other.
-                    </p>
-</div>
-<div class="benefit-card bg-white/60 backdrop-blur-sm p-8 rounded-lg shadow-md border border-white/40">
-<div class="text-red-700 text-3xl mb-4">
-<svg class="h-12 w-12" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</div>
-<h3 class="text-xl font-bold text-gray-900 mb-3">Growing Frustration</h3>
-<p class="text-gray-600">
-                        Errors and team frustration multiply as your organization scales up operations.
-                    </p>
-</div>
-</div>
-</div>
-</section>
-<!-- Solution Section -->
-<section class="py-16 bg-gradient-to-br from-blue-50 via-green-50 to-blue-100" id="benefits">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="text-center mb-16">
-<h2 class="text-3xl font-bold text-gray-900 mb-4">PAIXBLOX: One Platform, Every Benefit</h2>
-<p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                    Our unified platform addresses critical challenges in modern team workflows
-                </p>
-</div>
-<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-<div class="benefit-card bg-white/70 backdrop-blur-sm p-8 rounded-lg shadow-md border border-white/40">
-<div class="text-green-600 text-3xl mb-4">
-<svg class="h-12 w-12" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</div>
-<h3 class="text-xl font-bold text-gray-900 mb-3">Our platform simplifies system integration, reducing complexity and improving efficiency for your workflows.</h3>
-<p class="text-gray-600">
-                        No repetitive work. Create once and deploy across all your platforms seamlessly.
-                    </p>
-</div>
-<div class="benefit-card bg-white/70 backdrop-blur-sm p-8 rounded-lg shadow-md border border-white/40">
-<div class="text-blue-600 text-3xl mb-4">
-<svg class="h-12 w-12" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</div>
-<h3 class="text-xl font-bold text-gray-900 mb-3">Instant Collaboration</h3>
-<p class="text-gray-600">
-                        Teams work together across tools without translations or compatibility issues.
-                    </p>
-</div>
-<div class="benefit-card bg-white/70 backdrop-blur-sm p-8 rounded-lg shadow-md border border-white/40">
-<div class="text-purple-600 text-3xl mb-4">
-<svg class="h-12 w-12" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</div>
-<h3 class="text-xl font-bold text-gray-900 mb-3">Lightning Fast Delivery</h3>
-<p class="text-gray-600">
-                        Less friction means faster project completion and happier, more productive teams.
-                    </p>
-</div>
-<div class="benefit-card bg-white/70 backdrop-blur-sm p-8 rounded-lg shadow-md border border-white/40">
-<div class="text-indigo-600 text-3xl mb-4">
-<svg class="h-12 w-12" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</div>
-<h3 class="text-xl font-bold text-gray-900 mb-3">Seamless Integration</h3>
-<p class="text-gray-600">
-                        Works behind the scenes without changing how your team already operates day-to-day.
-                    </p>
-</div>
-</div>
-</div>
-</section>
-<!-- Trust Section -->
-<section class="py-16 bg-gradient-to-br from-blue-50 via-green-50 to-blue-100" id="trust">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="text-center mb-12">
-<h2 class="text-3xl font-bold text-gray-900 mb-4">Proven &amp; Trusted</h2>
-<p class="text-lg text-gray-600 max-w-3xl mx-auto">
-</p>
-</div>
-<div class="flex justify-center space-x-8 mb-8">
-<div class="bg-white/70 backdrop-blur-sm px-6 py-4 rounded-lg text-center">
-<div class="text-sm text-gray-600">Copyright</div>
-<div class="font-bold text-gray-900">TXu 2-092-256</div>
-</div>
-<div class="bg-white/70 backdrop-blur-sm px-6 py-4 rounded-lg text-center">
-<div class="text-sm text-gray-600">Copyright</div>
-<div class="font-bold text-gray-900">TXu 2-084-549</div>
-</div>
-<div class="bg-white/70 backdrop-blur-sm px-6 py-4 rounded-lg text-center">
-<div class="text-sm text-gray-600">Status</div>
-<div class="font-bold text-gray-900">🇺🇸 Veteran-Owned</div>
-</div>
-</div>
-<div class="text-center">
-<a class="inline-block bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-4 px-12 rounded-lg text-lg transition-colors" href="https://paixblox.github.io/PB-systems-demo/" target="_blank">
-                    Experience the Demo
-                </a>
-<div class="mt-6 text-gray-500 text-sm">
-                    See PAIXBLOX in action
-                </div>
-</div>
-</div>
-</section>
-<!-- Footer -->
-<footer class="bg-gray-900 text-white py-12">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="text-center">
-<div class="text-2xl font-bold mb-4">
-<span class="gradient-text">PAIXBLOX</span>
-</div>
-<p class="text-gray-400 max-w-2xl mx-auto">
-                    One System. Zero Hassle. Every Team Member Wins.
-                </p>
-<div class="mt-6 text-gray-500 text-sm">
-                    © 2025 PAIXBLOX. All rights reserved. | Veteran-Owned
-                </div>
-</div>
-</div>
-</footer>
-<script>
-        // Toggle team benefits content
-        function toggleTeamBenefits() {
-            const content = document.getElementById('teamBenefitsContent');
-            
-            // Toggle team benefits
-            if (content.classList.contains('show')) {
-                content.classList.remove('show');
-                content.style.display = 'none';
-            } else {
-                content.classList.add('show');
-                content.style.display = 'block';
-            }
-            
-            // Update button text
-            const btn = document.querySelector('[onclick="toggleTeamBenefits()"]');
-            btn.textContent = content.classList.contains('show') ? 'Hide Benefits' : 'Team Benefits';
-        }
-
-        // Demo buttons link directly to the external demo site - no JavaScript needed
+<body>
+  <section class="hero fullbleed">
+    <div class="wrap">
+      <div class="brand-row">
+        <div class="logo">PAIXBLOX</div>
         
-        // Smooth scrolling for internal navigation links only
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                // Only apply smooth scrolling to internal links
-                if (this.getAttribute('href').startsWith('#')) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                }
-            });
-        });
-    </script>
+      </div>
+
+      <h1>Continuous automation that keeps operations aligned.</h1>
+      <p class="lead">
+        One real-world change is automatically reflected across every operational view — without waiting for updates, handoffs, or follow-up coordination.
+      </p>
+
+      <div class="hero-cards">
+        <div class="hero-card">
+          <div class="label">Company scenario</div>
+          <div class="value">Rapid response ops</div>
+          <div class="sub">A call center, field team, logistics desk, finance desk, and command view all depend on the same changing event.</div>
+        </div>
+        <div class="hero-card">
+          <div class="label">What changes</div>
+          <div class="value">Less handoff drag</div>
+          <div class="sub">Updates do not become separate follow-up tasks for every department.</div>
+        </div>
+        <div class="hero-card">
+          <div class="label">Why it matters</div>
+          <div class="value">Faster decisions</div>
+          <div class="sub">Leaders see the current operating picture without waiting for each team to manually catch up.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="wrap demo-section">
+<section class="demo" aria-label="Paixblox first responder behavior comparison">
+      <div class="demo-head">
+        <div>
+          <div class="kicker">Step 1: Interactive incident flow</div>
+          <h2>Start the call, dispatch units, escalate, and resolve</h2>
+          <p class="demo-copy">
+            Use the buttons to move one response company through an active call. The next section ties the same event across dispatch, field operations, logistics, finance, and command.
+          </p>
+        </div>
+        <div class="toolbar">
+          <button class="primary" id="startBtn">Start Call</button>
+          <button id="dispatchBtn">Dispatch Units</button>
+          <button id="escalateBtn">Escalate Call</button>
+          <button id="resolveBtn">Resolve</button>
+          <button id="resetBtn">Reset</button>
+        </div>
+      </div>
+
+      <div class="compare">
+        <div class="panel traditional">
+          <h3>Traditional Environment</h3>
+          <div class="panel-desc">
+            The incident still moves forward, but each change may create follow-up checks, status calls, and delayed confidence.
+          </div>
+          <div class="metrics">
+            <div class="metric">
+              <div class="metric-label">Alignment delay</div>
+              <div class="metric-value warn" id="tradDelay">0 sec</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Manual steps</div>
+              <div class="metric-value warn" id="tradManual">0</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Command view</div>
+              <div class="metric-value bad" id="tradDecision">Pending</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel runtime">
+          <h3>Continuous Automation</h3>
+          <div class="panel-desc">
+            The operating picture stays current automatically as the situation changes.
+          </div>
+          <div class="metrics">
+            <div class="metric">
+              <div class="metric-label">Alignment delay</div>
+              <div class="metric-value good">No observable delay</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Manual steps</div>
+              <div class="metric-value good">0</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Command view</div>
+              <div class="metric-value good">Current</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-box">
+          <h4>What traditional teams may need to verify</h4>
+          <div class="step-list" id="traditionalSteps">
+            <div class="step"><span>No active checks</span><span>Ready</span></div>
+          </div>
+        </div>
+        <div class="detail-box">
+          <h4>What stays in sync automatically</h4>
+          <div class="step-list" id="runtimeSteps">
+            <div class="step"><span>Incident status</span><span>Ready</span></div>
+            <div class="step"><span>Dispatch posture</span><span>Ready</span></div>
+            <div class="step"><span>Command awareness</span><span>Ready</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-line" id="eventLine">
+        Demo ready. Start the call.
+      </div>
+
+      <div class="context">
+        This page shows the business value of aligned operational views: fewer follow-up checks, faster command confidence, and less coordination burden during a changing event.
+      </div>
+
+      <div class="protection">
+        
+      </div>
+
+    </section>
+
+
+    <section class="demo" aria-label="Paixblox full continuous automation sequence">
+      <div class="demo-head">
+        <div>
+          <div class="kicker">Step 2: See it all in action</div>
+          <h2>The same event, every department moving together</h2>
+          <p class="demo-copy">
+            This final sequence ties the incident flow together inside the same company: dispatch, field operations, logistics, finance, and command all stay current as the event changes.
+          </p>
+        </div>
+        <div class="toolbar">
+          <button class="primary" id="seeAllBtn">See It All In Action</button>
+          <button id="resetAllBtn">Reset</button>
+        </div>
+      </div>
+
+      <div class="scenario-strip">
+        <div class="scenario-card">
+          <div class="s-label">Incident</div>
+          <div class="s-value" id="allIncident">Ready</div>
+          <div class="s-note">The same response-company event moving through the operation.</div>
+        </div>
+        <div class="scenario-card">
+          <div class="s-label">Operations</div>
+          <div class="s-value" id="allOps">Standing by</div>
+          <div class="s-note">Call center and field teams stay current.</div>
+        </div>
+        <div class="scenario-card">
+          <div class="s-label">Logistics</div>
+          <div class="s-value" id="allLogistics">Ready</div>
+          <div class="s-note">Vehicle, equipment, and support status stay current.</div>
+        </div>
+        <div class="scenario-card">
+          <div class="s-label">Finance</div>
+          <div class="s-value" id="allFinance">Stable</div>
+          <div class="s-note">Overtime and delay exposure update with the event.</div>
+        </div>
+      </div>
+
+      <div class="domain-grid">
+        <div class="domain-card">
+          <h4>Dispatch / Call Center</h4>
+          <div class="step-list" id="allDispatchView">
+            <div class="step"><span>Call status</span><span>Ready</span></div>
+            <div class="step"><span>Unit assignment</span><span>Ready</span></div>
+            <div class="step"><span>Escalation posture</span><span>Normal</span></div>
+          </div>
+        </div>
+        <div class="domain-card">
+          <h4>Field Operations</h4>
+          <div class="step-list" id="allFieldView">
+            <div class="step"><span>Field unit</span><span>Available</span></div>
+            <div class="step"><span>Coverage</span><span>Covered</span></div>
+            <div class="step"><span>Response posture</span><span>Ready</span></div>
+          </div>
+        </div>
+        <div class="domain-card">
+          <h4>Logistics</h4>
+          <div class="step-list" id="allLogisticsView">
+            <div class="step"><span>Vehicle</span><span>Ready</span></div>
+            <div class="step"><span>Equipment kit</span><span>Ready</span></div>
+            <div class="step"><span>Support route</span><span>Ready</span></div>
+          </div>
+        </div>
+        <div class="domain-card">
+          <h4>Finance / Command</h4>
+          <div class="step-list" id="allFinanceView">
+            <div class="step"><span>Overtime risk</span><span>Low</span></div>
+            <div class="step"><span>Delay exposure</span><span>Low</span></div>
+            <div class="step"><span>Command picture</span><span>Current</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-line" id="allActionLog">
+        Ready. Run the full action sequence.
+      </div>
+
+      <div class="context">
+        The point is not one department updating faster. The point is every dependent view changing together as the situation changes.
+      </div>
+    </section>
+
+
+    
+
+  
+
+<section style="padding:64px 20px; background:linear-gradient(135deg,#eefbf4,#dbeafe);">
+  <div style="max-width:1120px; margin:0 auto;">
+    <div style="display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px;">
+      <div style="background:white; border:1px solid #e2e8f0; border-radius:18px; padding:34px 28px; box-shadow:0 14px 30px rgba(2,6,23,.10);">
+        <div style="font-size:44px; color:#2563eb; line-height:1; margin-bottom:28px;"><svg width="48" height="48" fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24">
+    <circle cx="12" cy="7" r="3"></circle>
+    <circle cx="5" cy="17" r="3"></circle>
+    <circle cx="19" cy="17" r="3"></circle>
+    <line x1="12" y1="10" x2="5" y2="14"></line>
+    <line x1="12" y1="10" x2="19" y2="14"></line>
+    </svg></div>
+        <h3 style="font-size:24px; margin:0 0 14px; color:#0f172a;">Instant Collaboration</h3>
+        <p style="font-size:17px; line-height:1.55; color:#475569; margin:0;">Teams operate from the same live picture without waiting for updates.</p>
+      </div>
+
+      <div style="background:white; border:1px solid #e2e8f0; border-radius:18px; padding:34px 28px; box-shadow:0 14px 30px rgba(2,6,23,.10);">
+        <div style="font-size:44px; color:#9333ea; line-height:1; margin-bottom:28px;"><svg width="48" height="48" fill="none" stroke="#9333ea" stroke-width="2" viewBox="0 0 24 24">
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+    </svg></div>
+        <h3 style="font-size:24px; margin:0 0 14px; color:#0f172a;">Faster Execution</h3>
+        <p style="font-size:17px; line-height:1.55; color:#475569; margin:0;">Fewer coordination steps means faster response and execution.</p>
+      </div>
+
+      <div style="background:white; border:1px solid #e2e8f0; border-radius:18px; padding:34px 28px; box-shadow:0 14px 30px rgba(2,6,23,.10);">
+        <div style="font-size:44px; color:#4f46e5; line-height:1; margin-bottom:28px;"><svg width="48" height="48" fill="none" stroke="#4f46e5" stroke-width="2" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"></circle>
+    <path d="M8 12l2 2 4-4"></path>
+    </svg></div>
+        <h3 style="font-size:24px; margin:0 0 14px; color:#0f172a;">Seamless Integration</h3>
+        <p style="font-size:17px; line-height:1.55; color:#475569; margin:0;">Works across existing systems without changing how teams operate.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+@media (max-width: 900px) {
+  section div[style*="grid-template-columns:repeat(3"] {
+    grid-template-columns:1fr !important;
+  }
+}
+</style>
+
+<section style="padding:60px 20px; text-align:center; background:linear-gradient(135deg,#eef3f7,#dbe7f1); border-top:1px solid #e2e8f0;">
+  <h2 style="font-size:32px; margin-bottom:20px; color:#0f172a;">Proven & Trusted</h2>
+
+  <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin-bottom:30px;">
+    <div style="background:white; padding:20px; border-radius:14px; box-shadow:0 8px 20px rgba(0,0,0,0.05); min-width:140px;">
+      <div style="font-size:12px; color:#64748b;">Copyright</div>
+      <div style="font-weight:800;">TXu 2-092-256</div>
+    </div>
+    <div style="background:white; padding:20px; border-radius:14px; box-shadow:0 8px 20px rgba(0,0,0,0.05); min-width:140px;">
+      <div style="font-size:12px; color:#64748b;">Copyright</div>
+      <div style="font-weight:800;">TXu 2-084-549</div>
+    </div>
+    <div style="background:white; padding:20px; border-radius:14px; box-shadow:0 8px 20px rgba(0,0,0,0.05); min-width:140px;">
+      <div style="font-size:12px; color:#64748b;">Status</div>
+      <div style="font-weight:800;">🇺🇸 Veteran-Owned</div>
+    </div>
+  </div>
+
+  <a href="mailto:ecomill@paixblox.com?subject=Full%20Demo%20Request"
+     style="display:inline-block; background:#eab308; color:#0f172a; font-weight:800; padding:16px 32px; border-radius:12px; text-decoration:none; font-size:18px;">
+     Request Full Demonstration
+  </a>
+
+  <div style="margin-top:14px; color:#475569;">See PAIXBLOX in action</div>
+</section>
+
+<footer style="background:#0b1220; color:#94a3b8; text-align:center; padding:40px 20px;">
+  <div style="font-size:28px; font-weight:900; color:#6366f1;">PAIXBLOX</div>
+  <div style="margin-top:10px;">One System. Zero Hassle. Every Team Member Wins.</div>
+  <div style="margin-top:14px; font-size:12px;">© 2026 PAIXBLOX. All rights reserved. | Veteran-Owned</div>
+</footer>
+
+</main>
+
+  <footer class="wrap">© 2026 Paixblox • Contact: ecomill@paixblox.com</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+
+function stepRows(items) {
+  if (!items.length) return '<div class="step"><span>No active checks</span><span>Ready</span></div>';
+  return items.map(item => `<div class="step"><span>${item[0]}</span><span>${item[1]}</span></div>`).join("");
+}
+
+/* Continuous automation in action */
+const connected = {
+  running:false,
+  timers:[]
+};
+
+function clearConnectedTimers() {
+  connected.timers.forEach(t => clearTimeout(t));
+  connected.timers = [];
+}
+
+function setConnectedViews(payload) {
+  $("triggerState").textContent = payload.trigger;
+  $("coverageState").textContent = payload.coverage;
+  $("readinessState").textContent = payload.readiness;
+  $("costState").textContent = payload.cost;
+  $("personnelView").innerHTML = stepRows(payload.personnel);
+  $("operationsView").innerHTML = stepRows(payload.operations);
+  $("readinessView").innerHTML = stepRows(payload.ready);
+  $("businessView").innerHTML = stepRows(payload.business);
+  $("connectedLog").textContent = payload.log;
+}
+
+function resetConnected() {
+  clearConnectedTimers();
+  setConnectedViews({
+    trigger:"Ready",
+    coverage:"Covered",
+    readiness:"Aligned",
+    cost:"Stable",
+    personnel:[
+      ["Primary employee","Available"],
+      ["Appointment status","None active"],
+      ["Shift status","Covered"]
+    ],
+    operations:[
+      ["Work assignment","On schedule"],
+      ["Replacement pool","Standby"],
+      ["Supervisor view","Current"]
+    ],
+    ready:[
+      ["Operational readiness","Aligned"],
+      ["Schedule risk","Low"],
+      ["Decision posture","Stable"]
+    ],
+    business:[
+      ["Overtime exposure","None"],
+      ["Delay risk","Low"],
+      ["Cost posture","Stable"]
+    ],
+    log:"Ready. Run the connected scenario."
+  });
+}
+
+function runConnectedScenario() {
+  clearConnectedTimers();
+
+  setConnectedViews({
+    trigger:"Appointment",
+    coverage:"Gap detected",
+    readiness:"Watching",
+    cost:"Reviewing",
+    personnel:[
+      ["Primary employee","Unavailable"],
+      ["Reason","Medical appointment"],
+      ["Shift status","Coverage needed"]
+    ],
+    operations:[
+      ["Work assignment","Needs replacement"],
+      ["Replacement pool","Searching"],
+      ["Supervisor view","Updated"]
+    ],
+    ready:[
+      ["Operational readiness","Watching"],
+      ["Schedule risk","Moderate"],
+      ["Decision posture","Needs coverage"]
+    ],
+    business:[
+      ["Overtime exposure","Possible"],
+      ["Delay risk","Moderate"],
+      ["Cost posture","Reviewing"]
+    ],
+    log:"Step 1: A single availability event changes personnel status and immediately affects coverage, readiness, and cost posture."
+  });
+
+  connected.timers.push(setTimeout(() => {
+    setConnectedViews({
+      trigger:"Appointment",
+      coverage:"Backup assigned",
+      readiness:"Recovering",
+      cost:"Contained",
+      personnel:[
+        ["Primary employee","Unavailable"],
+        ["Replacement employee","Qualified"],
+        ["Shift status","Reassigned"]
+      ],
+      operations:[
+        ["Work assignment","Reassigned"],
+        ["Required capability","Matched"],
+        ["Supervisor view","Current"]
+      ],
+      ready:[
+        ["Operational readiness","Recovering"],
+        ["Schedule risk","Reduced"],
+        ["Decision posture","Coverage identified"]
+      ],
+      business:[
+        ["Overtime exposure","Contained"],
+        ["Delay risk","Reduced"],
+        ["Cost posture","Contained"]
+      ],
+      log:"Step 2: Coverage is identified. The operational, readiness, and business views reflect the same updated situation."
+    });
+  }, 1200));
+
+  connected.timers.push(setTimeout(() => {
+    setConnectedViews({
+      trigger:"Resolved",
+      coverage:"Covered",
+      readiness:"Aligned",
+      cost:"Stable",
+      personnel:[
+        ["Primary employee","Appointment noted"],
+        ["Replacement employee","Assigned"],
+        ["Shift status","Covered"]
+      ],
+      operations:[
+        ["Work assignment","On schedule"],
+        ["Required capability","Maintained"],
+        ["Supervisor view","Current"]
+      ],
+      ready:[
+        ["Operational readiness","Aligned"],
+        ["Schedule risk","Low"],
+        ["Decision posture","Ready"]
+      ],
+      business:[
+        ["Overtime exposure","Avoided"],
+        ["Delay risk","Low"],
+        ["Cost posture","Stable"]
+      ],
+      log:"Step 3: The event is resolved across all views. The important part is that the views stay aligned as the scenario changes."
+    });
+  }, 2400));
+}
+
+/* Why it matters */
+const state = {
+  delay:0,
+  manual:0,
+  stage:"ready",
+  traditionalChecks:[],
+  aligned:[
+    ["Incident status","Ready"],
+    ["Dispatch posture","Ready"],
+    ["Command awareness","Ready"]
+  ]
+};
+
+function updateComparison(message) {
+  $("tradDelay").textContent = state.delay + " sec";
+  $("tradManual").textContent = state.manual;
+  $("traditionalSteps").innerHTML = stepRows(state.traditionalChecks);
+  $("runtimeSteps").innerHTML = stepRows(state.aligned);
+  $("eventLine").textContent = message;
+
+  $("tradDelay").className = state.delay > 22 ? "metric-value bad" : state.delay > 0 ? "metric-value warn" : "metric-value good";
+  $("tradManual").className = state.manual > 3 ? "metric-value bad" : state.manual > 0 ? "metric-value warn" : "metric-value good";
+}
+
+function startCall() {
+  state.stage = "call";
+  state.delay = 9;
+  state.manual = 1;
+  state.traditionalChecks = [
+    ["Confirm caller details","Dispatch"],
+    ["Open incident record","Call center"],
+    ["Notify supervisor","Pending"]
+  ];
+  state.aligned = [
+    ["Incident status","Call opened"],
+    ["Dispatch posture","Evaluating"],
+    ["Command awareness","Current"]
+  ];
+  $("tradDecision").textContent = "Reviewing";
+  $("tradDecision").className = "metric-value warn";
+  updateComparison("Call opened: traditional teams begin verifying details while continuous automation stays current.");
+}
+
+function dispatchUnits() {
+  if (state.stage === "ready") startCall();
+  state.stage = "dispatch";
+  state.delay += 8;
+  state.manual += 2;
+  state.traditionalChecks = [
+    ["Confirm unit assignment","Dispatch"],
+    ["Update field status","Radio / mobile"],
+    ["Share ETA change","Call center"],
+    ["Supervisor confirmation","Pending"]
+  ];
+  state.aligned = [
+    ["Incident status","Units assigned"],
+    ["Dispatch posture","Active"],
+    ["Field / intake view","Aware"],
+    ["Command awareness","Current"]
+  ];
+  $("tradDecision").textContent = "Delayed";
+  $("tradDecision").className = "metric-value warn";
+  updateComparison("Units dispatched: traditional environment adds follow-up coordination while continuous automation remain current.");
+}
+
+function escalateCall() {
+  if (state.stage === "ready") startCall();
+  state.stage = "escalated";
+  state.delay += 16;
+  state.manual += 3;
+  state.traditionalChecks = [
+    ["Confirm severity change","Dispatch"],
+    ["Reassign additional unit","Supervisor"],
+    ["Alert receiving intake","Phone / system"],
+    ["Update command summary","Pending"],
+    ["Validate latest status","Manual check"]
+  ];
+  state.aligned = [
+    ["Incident status","Escalated"],
+    ["Dispatch posture","Additional unit needed"],
+    ["Field / intake view","Preparing"],
+    ["Command awareness","Current"],
+    ["Decision posture","Ready"]
+  ];
+  $("tradDecision").textContent = "Waiting";
+  $("tradDecision").className = "metric-value bad";
+  updateComparison("Call escalated: traditional side waits for confirmation across teams while command remains current.");
+}
+
+function resolveCall() {
+  if (state.stage === "ready") startCall();
+  state.stage = "resolved";
+  state.delay += 6;
+  state.manual += 1;
+  state.traditionalChecks = [
+    ["Close incident record","Dispatch"],
+    ["Confirm field clearance","Field unit"],
+    ["Update final status","Call center"],
+    ["Supervisor review","Complete"]
+  ];
+  state.aligned = [
+    ["Incident status","Resolved"],
+    ["Dispatch posture","Closed"],
+    ["Field / intake view","Cleared"],
+    ["Command awareness","Closed"]
+  ];
+  $("tradDecision").textContent = "Confirmed";
+  $("tradDecision").className = "metric-value warn";
+  updateComparison("Incident resolved: traditional side performs final closeout checks while continuous automation closes from the same status.");
+}
+
+function resetComparison() {
+  state.delay = 0;
+  state.manual = 0;
+  state.stage = "ready";
+  state.traditionalChecks = [];
+  state.aligned = [
+    ["Incident status","Ready"],
+    ["Dispatch posture","Ready"],
+    ["Command awareness","Ready"]
+  ];
+  $("tradDecision").textContent = "Pending";
+  $("tradDecision").className = "metric-value bad";
+  updateComparison("Demo ready. Start the call.");
+}
+
+
+/* Final see-it-all action sequence */
+const allTimers = [];
+
+function clearAllTimers() {
+  while (allTimers.length) clearTimeout(allTimers.pop());
+}
+
+function setRows(id, items) {
+  $(id).innerHTML = stepRows(items);
+}
+
+function resetAllAction() {
+  clearAllTimers();
+  $("allIncident").textContent = "Ready";
+  $("allOps").textContent = "Standing by";
+  $("allLogistics").textContent = "Ready";
+  $("allFinance").textContent = "Stable";
+
+  setRows("allDispatchView", [
+    ["Call status","Ready"],
+    ["Unit assignment","Ready"],
+    ["Escalation posture","Normal"]
+  ]);
+  setRows("allFieldView", [
+    ["Field unit","Available"],
+    ["Coverage","Covered"],
+    ["Response posture","Ready"]
+  ]);
+  setRows("allLogisticsView", [
+    ["Vehicle","Ready"],
+    ["Equipment kit","Ready"],
+    ["Support route","Ready"]
+  ]);
+  setRows("allFinanceView", [
+    ["Overtime risk","Low"],
+    ["Delay exposure","Low"],
+    ["Command picture","Current"]
+  ]);
+  $("allActionLog").textContent = "Ready. Run the full action sequence.";
+}
+
+function runAllAction() {
+  clearAllTimers();
+
+  $("allIncident").textContent = "Call escalated";
+  $("allOps").textContent = "Units moving";
+  $("allLogistics").textContent = "Support check";
+  $("allFinance").textContent = "Watching";
+  setRows("allDispatchView", [
+    ["Call status","Escalated"],
+    ["Unit assignment","Primary unit sent"],
+    ["Escalation posture","Active"]
+  ]);
+  setRows("allFieldView", [
+    ["Field unit","En route"],
+    ["Coverage","Checking"],
+    ["Response posture","Active"]
+  ]);
+  setRows("allLogisticsView", [
+    ["Vehicle","Assigned"],
+    ["Equipment kit","Verifying"],
+    ["Support route","Checking"]
+  ]);
+  setRows("allFinanceView", [
+    ["Overtime risk","Watching"],
+    ["Delay exposure","Watching"],
+    ["Command picture","Current"]
+  ]);
+  $("allActionLog").textContent = "Step 1: The response call escalates inside the same company. Dispatch, field operations, logistics, finance, and command all move from the same event.";
+
+  allTimers.push(setTimeout(() => {
+    $("allIncident").textContent = "Escalation impact";
+    $("allOps").textContent = "Rebalancing";
+    $("allLogistics").textContent = "Rerouting";
+    $("allFinance").textContent = "Cost contained";
+    setRows("allDispatchView", [
+      ["Call status","Escalated"],
+      ["Unit assignment","Backup added"],
+      ["Escalation posture","Controlled"]
+    ]);
+    setRows("allFieldView", [
+      ["Field unit","En route"],
+      ["Coverage","Backup assigned"],
+      ["Response posture","Maintained"]
+    ]);
+    setRows("allLogisticsView", [
+      ["Vehicle","Confirmed"],
+      ["Equipment kit","Staged"],
+      ["Support route","Adjusted"]
+    ]);
+    setRows("allFinanceView", [
+      ["Overtime risk","Contained"],
+      ["Delay exposure","Reduced"],
+      ["Command picture","Current"]
+    ]);
+    $("allActionLog").textContent = "Step 2: The escalation affects staffing, logistics, and cost exposure together instead of becoming separate follow-up tasks.";
+  }, 1200));
+
+  allTimers.push(setTimeout(() => {
+    $("allIncident").textContent = "Resolved";
+    $("allOps").textContent = "On track";
+    $("allLogistics").textContent = "Aligned";
+    $("allFinance").textContent = "Stable";
+    setRows("allDispatchView", [
+      ["Call status","Resolved"],
+      ["Unit assignment","Complete"],
+      ["Escalation posture","Closed"]
+    ]);
+    setRows("allFieldView", [
+      ["Field unit","Clearing"],
+      ["Coverage","Covered"],
+      ["Response posture","On track"]
+    ]);
+    setRows("allLogisticsView", [
+      ["Vehicle","Recovered"],
+      ["Equipment kit","Accounted for"],
+      ["Support route","Closed"]
+    ]);
+    setRows("allFinanceView", [
+      ["Overtime risk","Avoided"],
+      ["Delay exposure","Low"],
+      ["Command picture","Closed"]
+    ]);
+    $("allActionLog").textContent = "Step 3: The event resolves with every department on the same current picture — call center, field operations, logistics, finance, and command.";
+  }, 2400));
+}
+
+
+$("startBtn").addEventListener("click", startCall);
+$("dispatchBtn").addEventListener("click", dispatchUnits);
+$("escalateBtn").addEventListener("click", escalateCall);
+$("resolveBtn").addEventListener("click", resolveCall);
+$("resetBtn").addEventListener("click", resetComparison);
+$("seeAllBtn").addEventListener("click", runAllAction);
+$("resetAllBtn").addEventListener("click", resetAllAction);
+
+resetAllAction();
+</script>
 </body>
 </html>
